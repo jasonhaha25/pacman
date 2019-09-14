@@ -865,36 +865,37 @@ while True:
             clyde_state = "chase"
     
     #clyde random movement 
+    clyde_list = []
     if clyde_state == "chase" and clyde_ai == clyde_i and clyde_aj == clyde_j:
-        if 
+
+        if check_path(maze[clyde_ai-1][clyde_aj]) and clyde_dir != "down": #check up path
+            clyde_list.append(4)
+        if check_path(maze[clyde_ai+1][clyde_aj]) and clyde_dir != "up": #check down path
+            clyde_list.append(3)
+        if check_path(maze[clyde_ai][clyde_aj+1]) and clyde_dir != "left": #check right path
+            clyde_list.append(2)
+        if check_path(maze[clyde_ai][clyde_aj-1]) and clyde_dir != "right": #check left path
+            clyde_list.append(1)
+            
+        clyde_random = random.choice(clyde_list)
+
         if clyde_random == 1: #moves left
-            if check_path(maze[clyde_ai][clyde_aj-1]) and clyde_dir != "right":
-                clyde_dir = "left"
-                clyde_j_change = -speed
-            else:
-                clyde_j_change = 0
-                clyde_random = random.randint(1,4)
+            clyde_dir = "left"
+            clyde_i_change = 0
+            clyde_j_change = -speed
         if clyde_random == 2: #moves right
-            if check_path(maze[clyde_ai][clyde_aj+1]) and clyde_dir != "left":
-                clyde_dir = "right"
-                clyde_j_change = speed
-            else:
-                clyde_j_change = 0
-                clyde_random = random.randint(1,4)
+            clyde_dir = "right"
+            clyde_i_change = 0
+            clyde_j_change = speed
         if clyde_random == 3: #moves down
-            if check_path(maze[clyde_ai+1][clyde_aj]) and clyde_dir != "up":
-                clyde_dir = "down"
-                clyde_i_change = speed
-            else:
-                clyde_i_change = 0
-                clyde_random = random.randint(1,4)
+            clyde_dir = "down"
+            clyde_j_change = 0
+            clyde_i_change = speed
         if clyde_random == 4: #moves up
-            if check_path(maze[clyde_ai-1][clyde_aj]) and clyde_dir != "down":
-                clyde_dir = "up"
-                clyde_i_change = -speed
-            else:
-                clyde_i_change = 0
-                clyde_random = random.randint(1,4)
+            clyde_dir = "up"
+            clyde_j_change = 0
+            clyde_i_change = -speed
+
 
     #clyde eye direction
     if clyde_i_change == -speed:
