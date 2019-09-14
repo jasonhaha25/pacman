@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 black = 0, 0, 0
 white = 255, 255, 255
@@ -46,6 +47,8 @@ y = pygame.image.load("./map/y.png")
 z = pygame.image.load("./map/z.png")
 
 door = pygame.image.load("./map/door.png")
+blanc = pygame.image.load("./map/blanc.png")
+
 cherry = pygame.image.load("./cherry.png")
 
 
@@ -53,91 +56,53 @@ cherry = pygame.image.load("./cherry.png")
 def draw(i, j, s):
     i *= 12
     j = j * 12 + 32
-    l = 3
+    options = {
+        "bt": bordertop,
+        "bl": borderleft,
+        "br": borderright,
+        "bd": borderdown,
+        "b1": border1,  # border corner 1
+        "b2": border2,  # border corner 2
+        "b3": border3,  # border corner 3:
+        "b4": border4,  # border corner 4:
+        "t": top,
+        "l": left,
+        "r": right,
+        "d": down,
+        "1": turn1,
+        "2": turn2,  # bottom left
+        "3": turn3,  # top left
+        "4": turn4,  # top right
+        "5": lturn1,  # l-turn 1
+        "6": lturn2,  # l-turn 2
+        "7": lturn3,  # l-turn 3
+        "8": lturn4,  # l-turn 4
+        "u": u,
+        "v": v,
+        "w": w,
+        "x": x,
+        "y": y,
+        "z": z,
+        "oo": door,
+        "-" or "xx" or "ooo": blanc
+    }
+    if s != "" and s != "c" and s != "cherry" and s != "xx" and s != "-" and s != "ooo":
+        screen.blit(options[s], [j, i, 12, 12])
 
-    if "b" in s:
-        if "bt" in s:
-            screen.blit(bordertop, [j, i, 12, 12])
-        elif "bl" in s:
-            screen.blit(borderleft, [j, i, 12, 12])
-        elif "br" in s:
-            screen.blit(borderright, [j, i, 12, 12])
-        elif "bd" in s:
-            screen.blit(borderdown, [j, i, 12, 12])
-        elif "b1" in s:  # border corner 1
-            screen.blit(border1, [j, i, 12, 12])
-        elif "b2" in s:  # border corner 2
-            screen.blit(border2, [j, i, 12, 12])
-        elif "b3" in s:  # border corner 3:
-            screen.blit(border3, [j, i, 12, 12])
-        elif "b4" in s:  # border corner 4:
-            screen.blit(border4, [j, i, 12, 12])
-    else:
-
-        if "t" == s:
-            screen.blit(top, [j, i, 12, 12])
-        if "l" == s:
-            screen.blit(left, [j, i, 12, 12])
-        if "r" == s:
-            screen.blit(right, [j, i, 12, 12])
-        if "d" == s:
-            screen.blit(down, [j, i, 12, 12])
-
-        if "1" == s:
-            screen.blit(turn1, [j, i, 12, 12])
-
-        if "2" == s:  # bottom left
-            screen.blit(turn2, [j, i, 12, 12])
-        if "3" == s:  # top left
-            screen.blit(turn3, [j, i, 12, 12])
-        if "4" == s:  # top right
-            screen.blit(turn4, [j, i, 12, 12])
-        # ----------------------------------------------------
-        if "5" == s:  # l-turn 1
-            screen.blit(lturn1, [j, i, 12, 12])
-
-        if "6" == s:  # l-turn 2
-            screen.blit(lturn2, [j, i, 12, 12])
-
-        if "7" == s:  # l-turn 3
-            screen.blit(lturn3, [j, i, 12, 12])
-
-        if "8" == s:  # l-turn 4
-            screen.blit(lturn4, [j, i, 12, 12])
-
-        if "u" == s:
-            screen.blit(u, [j, i, 12, 12])
-        if "v" == s:
-            screen.blit(v, [j, i, 12, 12])
-        if "w" == s:
-            screen.blit(w, [j, i, 12, 12])
-
-        if "x" == s:
-            screen.blit(x, [j, i, 12, 12])
-
-        if "y" == s:
-            screen.blit(y, [j, i, 12, 12])
-
-        if "z" == s:
-            screen.blit(z, [j, i, 12, 12])
-
-        if "oo" == s:
-            screen.blit(door, [j, i, 12, 12])
-
-        if s == "":
-            screen.fill(white, [j + 5, i + 5, 2, 2])
-        if 0 <= cookie_phase <= 2:
-            cookie = cookie0
-        elif 3 <= cookie_phase <= 5:
-            cookie = cookie1
-        elif 6 <= cookie_phase <= 8:
-            cookie = cookie2
-        elif 9 <= cookie_phase <= 11:
-            cookie = cookie1
-        if s == "c":
-            screen.blit(cookie, [j, i, 12, 12])
-        if s == "cherry":
-            screen.blit(cherry, [j, i, 20, 20])
+    if s == "":
+        screen.fill(white, [j + 5, i + 5, 2, 2])
+    if 0 <= cookie_phase <= 2:
+        cookie = cookie0
+    elif 3 <= cookie_phase <= 5:
+        cookie = cookie1
+    elif 6 <= cookie_phase <= 8:
+        cookie = cookie2
+    elif 9 <= cookie_phase <= 11:
+        cookie = cookie1
+    if s == "c":
+        screen.blit(cookie, [j, i, 12, 12])
+    if s == "cherry":
+        screen.blit(cherry, [j, i, 20, 20])
 
 pygame.init()
 
