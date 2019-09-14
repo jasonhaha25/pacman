@@ -866,6 +866,7 @@ while True:
     
     #clyde random movement 
     if clyde_state == "chase" and clyde_ai == clyde_i and clyde_aj == clyde_j:
+        if 
         if clyde_random == 1: #moves left
             if check_path(maze[clyde_ai][clyde_aj-1]) and clyde_dir != "right":
                 clyde_dir = "left"
