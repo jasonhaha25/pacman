@@ -51,7 +51,8 @@ blanc = pygame.image.load("./map/blanc.png")
 
 cherry = pygame.image.load("./cherry.png")
 
-
+pygame.font.init()
+font = pygame.font.SysFont("ArcadeClassic", 25)
 
 def draw(i, j, s):
     i *= 12
@@ -84,9 +85,11 @@ def draw(i, j, s):
         "y": y,
         "z": z,
         "oo": door,
-        "-" or "xx" or "ooo": blanc
+        "-": blanc,
+        "xx": blanc,
+        "ooo": blanc
     }
-    if s != "" and s != "c" and s != "cherry" and s != "xx" and s != "-" and s != "ooo":
+    if s != "" and s != "c" and s != "cherry":
         screen.blit(options[s], [j, i, 12, 12])
 
     if s == "":
@@ -682,6 +685,8 @@ while True:
         for j in range(28):
             if maze[i][j] != " ":
                 draw(i, j, maze[i][j])
+    text = font.render("SCORE: " + str(score), True, yellow)
+    screen.blit(text, [30, 380])
 
     me_ai = int(me_i)
     me_aj = int(me_j)
