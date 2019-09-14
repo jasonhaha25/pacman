@@ -719,6 +719,9 @@ clyde_i_change = 0
 clyde_j_change = 0
 clyde_phase =  0
 clyde_blit = pygame.transform.scale(clyde_up, [20,20])
+clyde_state = "room"
+clyde_random = 1
+clyde_dir = ""
 
 speed = 0.25
 man_phase = 0
@@ -844,15 +847,52 @@ while True:
     clyde_ai = int(clyde_i)
     clyde_aj = int(clyde_j)
 
-    if maze[clyde_ai][clyde_aj] == "ooo":
-        if 13.5 == clyde_j:
-            clyde_j_change = 0
-            clyde_i_change = -speed
-        else:
+    #clyde moving out of room
+    if clyde_state == "room":
+        if maze[clyde_ai][clyde_aj] == "ooo":
+            if 13.5 == clyde_j:
+                clyde_j_change = 0
+                clyde_i_change = -speed
+                clyde_dir = "up"
+            else:
+                clyde_j_change = -speed
+                clyde_dir = "left"
+        elif (clyde_j == 13.5) and (clyde_ai == 11 == clyde_i):
+            clyde_i_change = 0
             clyde_j_change = -speed
-    elif (clyde_j == 13.5) and (clyde_ai == 11 == clyde_i):
-        clyde_j_change = 0
-        clyde_i_change = 0
+            clyde_dir = "left"
+            clyde_state = "chase"
+    
+    #clyde random movement 
+    if clyde_state == "chase" and clyde_ai == clyde_i and clyde_aj == clyde_j:
+        if clyde_random == 1: #moves left
+            if check_path(maze[clyde_ai][clyde_aj-1]) and clyde_dir != "right":
+                clyde_dir = "left"
+                clyde_j_change = -speed
+            else:
+                clyde_j_change = 0
+                clyde_random = random.randint(1,4)
+        if clyde_random == 2: #moves right
+            if check_path(maze[clyde_ai][clyde_aj+1]) and clyde_dir != "left":
+                clyde_dir = "right"
+                clyde_j_change = speed
+            else:
+                clyde_j_change = 0
+                clyde_random = random.randint(1,4)
+        if clyde_random == 3: #moves down
+            if check_path(maze[clyde_ai+1][clyde_aj]) and clyde_dir != "up":
+                clyde_dir = "down"
+                clyde_i_change = speed
+            else:
+                clyde_i_change = 0
+                clyde_random = random.randint(1,4)
+        if clyde_random == 4: #moves up
+            if check_path(maze[clyde_ai-1][clyde_aj]) and clyde_dir != "down":
+                clyde_dir = "up"
+                clyde_i_change = -speed
+            else:
+                clyde_i_change = 0
+                clyde_random = random.randint(1,4)
 
     #clyde eye direction
     if clyde_i_change == -speed:
