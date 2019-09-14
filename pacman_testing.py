@@ -722,6 +722,7 @@ clyde_blit = pygame.transform.scale(clyde_up, [20,20])
 clyde_state = "room"
 clyde_random = 1
 clyde_dir = ""
+clyde_list = []
 
 speed = 0.25
 man_phase = 0
