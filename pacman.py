@@ -46,6 +46,8 @@ y = pygame.image.load("./map/y.png")
 z = pygame.image.load("./map/z.png")
 
 door = pygame.image.load("./map/door.png")
+cherry = pygame.image.load("./cherry.png")
+
 
 
 def draw(i, j, s):
@@ -134,6 +136,8 @@ def draw(i, j, s):
             cookie = cookie1
         if s == "c":
             screen.blit(cookie, [j, i, 12, 12])
+        if s == "cherry":
+            screen.blit(cherry, [j, i, 20, 20])
 
 pygame.init()
 
@@ -686,7 +690,7 @@ def maze2():
     maze[23][26] = "c"
 
 def check_path(s):
-    return s == "" or s == "-" or s == "c"
+    return s == "" or s == "-" or s == "c" or s == "cherry"
 
 maze2()
 
@@ -736,6 +740,10 @@ while True:
         me_j = 28 - speed
     if me_move == "right" and me_i == 14 and me_j == 28 - speed:
         me_j = -1 + speed
+
+    if score % 700 == 0 and score != 0:
+        maze[17][13] = "cherry"
+
 
     if me_i == me_ai and me_j == me_aj:
         if maze[me_ai][me_aj] == "":
