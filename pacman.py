@@ -13,50 +13,45 @@ man3 = pygame.image.load("./man/man3.png")
 cookie0 = pygame.image.load("./cookie0.png")
 cookie1 = pygame.image.load("./cookie1.png")
 cookie2 = pygame.image.load("./cookie2.png")
-
-down = pygame.image.load("./map/d.png")
-top = pygame.image.load("./map/t.png")
-left = pygame.image.load("./map/l.png")
-right = pygame.image.load("./map/r.png")
-
-bordertop = pygame.image.load("./map/bt.png")
-borderdown = pygame.image.load("./map/bd.png")
-borderleft = pygame.image.load("./map/bl.png")
-borderright = pygame.image.load("./map/br.png")
-
-border1 = pygame.image.load("./map/b1.png")
-border2 = pygame.image.load("./map/b2.png")
-border3 = pygame.image.load("./map/b3.png")
-border4 = pygame.image.load("./map/b4.png")
-
-turn1 = pygame.image.load("./map/1.png")
-turn2 = pygame.image.load("./map/2.png")
-turn3 = pygame.image.load("./map/3.png")
-turn4 = pygame.image.load("./map/4.png")
-
-lturn1 = pygame.image.load("./map/5.png")
-lturn2 = pygame.image.load("./map/6.png")
-lturn3 = pygame.image.load("./map/7.png")
-lturn4 = pygame.image.load("./map/8.png")
-
-u = pygame.image.load("./map/u.png")
-v = pygame.image.load("./map/v.png")
-w = pygame.image.load("./map/w.png")
-x = pygame.image.load("./map/x.png")
-y = pygame.image.load("./map/y.png")
-z = pygame.image.load("./map/z.png")
-
-door = pygame.image.load("./map/door.png")
-blanc = pygame.image.load("./map/blanc.png")
-
 cherry = pygame.image.load("./cherry.png")
 
-pygame.font.init()
-font = pygame.font.SysFont("ArcadeClassic", 25)
 
-def draw(i, j, s):
-    i *= 12
-    j = j * 12 + 32
+def load_map():
+    global options
+    down = pygame.image.load("./map/d.png")
+    top = pygame.image.load("./map/t.png")
+    left = pygame.image.load("./map/l.png")
+    right = pygame.image.load("./map/r.png")
+
+    bordertop = pygame.image.load("./map/bt.png")
+    borderdown = pygame.image.load("./map/bd.png")
+    borderleft = pygame.image.load("./map/bl.png")
+    borderright = pygame.image.load("./map/br.png")
+
+    border1 = pygame.image.load("./map/b1.png")
+    border2 = pygame.image.load("./map/b2.png")
+    border3 = pygame.image.load("./map/b3.png")
+    border4 = pygame.image.load("./map/b4.png")
+
+    turn1 = pygame.image.load("./map/1.png")
+    turn2 = pygame.image.load("./map/2.png")
+    turn3 = pygame.image.load("./map/3.png")
+    turn4 = pygame.image.load("./map/4.png")
+
+    lturn1 = pygame.image.load("./map/5.png")
+    lturn2 = pygame.image.load("./map/6.png")
+    lturn3 = pygame.image.load("./map/7.png")
+    lturn4 = pygame.image.load("./map/8.png")
+
+    u = pygame.image.load("./map/u.png")
+    v = pygame.image.load("./map/v.png")
+    w = pygame.image.load("./map/w.png")
+    x = pygame.image.load("./map/x.png")
+    y = pygame.image.load("./map/y.png")
+    z = pygame.image.load("./map/z.png")
+
+    door = pygame.image.load("./map/door.png")
+    blanc = pygame.image.load("./map/blanc.png")
     options = {
         "bt": bordertop,
         "bl": borderleft,
@@ -89,38 +84,38 @@ def draw(i, j, s):
         "xx": blanc,
         "ooo": blanc
     }
-    if s != "" and s != "c" and s != "cherry":
-        screen.blit(options[s], [j, i, 12, 12])
 
+
+def check_cookie_phase():
+    if 0 <= cookie_phase <= 2:
+        return cookie0
+    elif 3 <= cookie_phase <= 5:
+        return cookie1
+    elif 6 <= cookie_phase <= 8:
+        return cookie2
+    elif 9 <= cookie_phase <= 11:
+        return cookie1
+
+
+def draw(i, j, s):
+    i *= 12
+    j = j * 12 + 32
     if s == "":
         screen.fill(white, [j + 5, i + 5, 2, 2])
-    if 0 <= cookie_phase <= 2:
-        cookie = cookie0
-    elif 3 <= cookie_phase <= 5:
-        cookie = cookie1
-    elif 6 <= cookie_phase <= 8:
-        cookie = cookie2
-    elif 9 <= cookie_phase <= 11:
-        cookie = cookie1
-    if s == "c":
+    elif s == "c":
+        cookie = check_cookie_phase()
         screen.blit(cookie, [j, i, 12, 12])
-    if s == "cherry":
+    elif s == "cherry":
         screen.blit(cherry, [j, i, 20, 20])
+    else:
+        screen.blit(options[s], [j, i, 12, 12])
 
-pygame.init()
-
-size = width, height = 400, 400
-screen = pygame.display.set_mode(size)
-
-FPS = 30
-clock = pygame.time.Clock()
-
-maze = []
-for i in range(31):
-    maze.append([""] * 28)
 
 def maze2():
     global maze
+    maze = []
+    for i in range(31):
+        maze.append([""] * 28)
     maze[0][0] = "b1"
     for i in range(1, 13):
         maze[0][i] = "bt"
@@ -596,7 +591,7 @@ def maze2():
     maze[22][27] = "br"
     maze[21][27] = "br"
     maze[20][27] = "br"
-    #--------------
+    # --------------
     maze[12][13] = "oo"
     maze[12][14] = "oo"
 
@@ -657,9 +652,22 @@ def maze2():
     maze[23][1] = "c"
     maze[23][26] = "c"
 
+
 def check_path(s):
     return s == "" or s == "-" or s == "c" or s == "cherry"
 
+
+pygame.init()
+pygame.font.init()
+font = pygame.font.SysFont("ArcadeClassic", 25)
+load_map()
+size = width, height = 400, 400
+screen = pygame.display.set_mode(size)
+
+FPS = 30
+clock = pygame.time.Clock()
+
+maze = []
 maze2()
 
 me_i = 23
@@ -713,7 +721,6 @@ while True:
 
     if score % 700 == 0 and score != 0:
         maze[17][13] = "cherry"
-
 
     if me_i == me_ai and me_j == me_aj:
         if maze[me_ai][me_aj] == "":
